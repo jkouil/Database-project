@@ -39,12 +39,12 @@ CREATE TABLE Ecrire (
 
 -- Table: Adherent
 CREATE TABLE Adherent (
-    ID SERIAL PRIMARY KEY,
-    Nom VARCHAR(100) NOT NULL,
-    Adresse TEXT,
-    Email VARCHAR(100),
-    Telephone VARCHAR(20),
-    DateInscription DATE
+  ID SERIAL PRIMARY KEY,
+  Nom VARCHAR(100) NOT NULL,
+  Adresse TEXT,
+  Email VARCHAR(100),
+  Telephone VARCHAR(20),
+  DateInscription DATE
 );
 
 -- Table: Emprunter
@@ -89,25 +89,25 @@ INSERT INTO Genre (GenreID, Nom) VALUES
 -- Insertion dans Auteur
 INSERT INTO Auteur (AuteurID, Nom, Nationalite, DateNaissance, Adresse) VALUES
     (1,'Isaac Asimov', 'Americain', '1920-01-02', 'Brooklyn, New York'),
-    (2,'Albert Camus', 'Francais', '1913-11-07', 'Mondovi, Algerie'),
+    (2,'Albert Camus', 'Français', '1913-11-07', 'Mondovi, Algerie'),
     (3,'George Orwell', 'Britannique', '1903-06-25', 'Motihari, Inde'),
     (4,'Platon', 'Grec', '0428-01-01', 'Athenes'),
-    (5,'Voltaire', 'Francais', '1694-11-21', 'Paris'),
-    (6,'Victor Hugo', 'Francais', '1802-02-26', 'Besancon'),
+    (5,'Voltaire', 'Français', '1694-11-21', 'Paris'),
+    (6,'Victor Hugo', 'Français', '1802-02-26', 'Besançon'),
     (7,'Aldous Huxley', 'Britannique', '1894-07-26', 'Godalming'),
     (8,'Robert M. Pirsig', 'Americain', '1928-09-06', 'Minneapolis'),
     (9,'Harper Lee', 'Americaine', '1926-04-28', 'Monroeville, Alabama'),
     (10,'Machiavel', 'Italien', '1469-05-03', 'Florence'),
-    (11, 'Jules Michelet', 'Francais', '1798-08-21', 'Paris'),
+    (11, 'Jules Michelet', 'Français', '1798-08-21', 'Paris'),
     (12, 'Stefan Zweig', 'Autrichien', '1881-11-28', 'Vienne'),
     (13, 'Bryan Ward-Perkins', 'Britannique', '1960-01-01', 'Oxford'),
-    (14, 'Paul eluard', 'Francais', '1895-12-14', 'Saint-Denis'),
-    (15, 'Charles Baudelaire', 'Francais', '1821-04-09', 'Paris'),
-    (16, 'Arthur Rimbaud', 'Francais', '1854-10-20', 'Charleville'),
-    (17, 'Jean Racine', 'Francais', '1639-12-22', 'La Ferte-Milon'),
-    (18, 'Pierre Corneille', 'Francais', '1606-06-06', 'Rouen'),
-    (19, 'Jean Anouilh', 'Francais', '1910-06-23', 'Bordeaux'),
-    (20, 'Guy de Maupassant', 'Francais', '1850-08-05', 'Tourville-sur-Arques'),
+    (14, 'Paul eluard', 'Français', '1895-12-14', 'Saint-Denis'),
+    (15, 'Charles Baudelaire', 'Français', '1821-04-09', 'Paris'),
+    (16, 'Arthur Rimbaud', 'Français', '1854-10-20', 'Charleville'),
+    (17, 'Jean Racine', 'Français', '1639-12-22', 'La Ferte-Milon'),
+    (18, 'Pierre Corneille', 'Français', '1606-06-06', 'Rouen'),
+    (19, 'Jean Anouilh', 'Français', '1910-06-23', 'Bordeaux'),
+    (20, 'Guy de Maupassant', 'Français', '1850-08-05', 'Tourville-sur-Arques'),
     (21, 'Anne Frank', 'Allemande', '1929-06-12', 'Francfort'),
     (22, 'Michelle Obama', 'Americaine', '1964-01-17', 'Chicago'),
     (23, 'J.R.R. Tolkien', 'Britannique', '1892-01-03', 'Bloemfontein'),
@@ -132,26 +132,26 @@ INSERT INTO Livre (ISBN, Titre, DatePublication, Editeur, GenreID) VALUES
     ('9780140449181', 'La Republique', '380-01-01', 'Flammarion', 3),
     ('9780140449273', 'Candide', '1759-01-01', 'Gallimard', 2),
     ('9780385472579', 'Zen and the Art of Motorcycle Maintenance', '1974-04-01', 'HarperTorch', 3),
-    ('9780679720201', 'Histoire de la Revolution francaise', '1847-01-01', 'Librairie Garnier Freres', 4),
-    ('9782070380176', 'Le Monde d’hier', '1942-01-01', 'Stock', 4),
-    ('9782070372751', 'La Chute de l’Empire romain', '1984-01-01', 'Gallimard', 4),
-    ('9782020123456', 'Anthologie de la poesie francaise', '1998-04-01', 'Seuil', 5),
+    ('9780679720201', 'Histoire de la Revolution française', '1847-01-01', 'Librairie Garnier Freres', 4),
+    ('9782070380176', 'Le Monde d''hier', '1942-01-01', 'Stock', 4),
+    ('9782070372751', 'La Chute de l''Empire romain', '1984-01-01', 'Gallimard', 4),
+    ('9782020123456', 'Anthologie de la poesie française', '1998-04-01', 'Seuil', 5),
     ('9782070314974', 'Les Fleurs du mal', '1857-01-01', 'Gallimard', 5),
     ('9782253004226', 'Le Bateau ivre', '1871-01-01', 'editions du Seuil', 5),
     ('9782070381111', 'Phedre', '1677-01-01', 'Gallimard', 6),
     ('9782070360534', 'Le Cid', '1637-01-01', 'Gallimard', 6),
     ('9782070360909', 'Antigone', '1944-01-01', 'La Table Ronde', 6),
     ('9782070455674', 'Une vie', '1883-01-01', 'Flammarion', 7),
-    ('9782070371875', 'Journal d’Anne Frank', '1947-06-25', 'Calmann-Levy', 7),
+    ('9782070371875', 'Journal d''Anne Frank', '1947-06-25', 'Calmann-Levy', 7),
     ('9782070389025', 'Devenir', '2018-11-13', 'Fayard', 7),
     ('9782738112345', 'Le Seigneur des Anneaux', '1954-07-29', 'Bourgois', 8),
-    ('9782070643029', 'Harry Potter a l’ecole des sorciers', '1997-06-26', 'Gallimard Jeunesse', 8),
+    ('9782070643029', 'Harry Potter a l''ecole des sorciers', '1997-06-26', 'Gallimard Jeunesse', 8),
     ('9782081234567', 'Eragon', '2002-08-26', 'Bayard Jeunesse', 8),
     ('9782070101010', 'Le Capital', '1867-01-01', 'editions Sociales', 9),
-    ('9782070101027', 'Theorie generale de l’emploi, de l’interat et de la monnaie', '1936-01-01', 'Payot', 9),
+    ('9782070101027', 'Theorie generale de l''emploi, de l''interet et de la monnaie', '1936-01-01', 'Payot', 9),
     ('9782070101034', 'Freakonomics', '2005-01-01', 'Pearson', 9),
     ('9782070101041', 'Introduction a la psychologie', '2000-01-01', 'De Boeck', 10),
-    ('9782070101058', 'L’Interpretation des raves', '1899-01-01', 'PUF', 10);
+    ('9782070101058', 'L''Interpretation des reves', '1899-01-01', 'PUF', 10);
 
 
 -- Insertion dans Ecrire
@@ -227,107 +227,4 @@ INSERT INTO Commander (ISBN, AdherentID, DateCommande, Statut, DateDebut, DureeP
     ('9782070101058', 6, '2025-04-07', 'en_attente', '2025-04-15', 14),
     ('9782070101034', 7, '2025-04-03', 'honoree', '2025-04-04', 10);
 
--- ===== TEST QUERIES =====
--- 未归还的Emprunter
-SELECT
-    e.EmpruntID,
-    a.Nom AS NomAdherent,
-    l.Titre AS TitreLivre,
-    e.DateEmprunt,
-    e.DateRetourPrevue,
-    e.DateRetourReelle,
-    e.EstEnRetard
-FROM Emprunter e
-         JOIN Adherent a ON e.AdherentID = a.ID
-         JOIN Livre l ON e.ISBN = l.ISBN
-WHERE e.DateRetourReelle IS NULL;
-
--- 查询每位会员的借阅总数（包含历史记录）
-SELECT
-    a.Nom AS NomAdherent,
-    COUNT(e.EmpruntID) AS TotalEmprunts
-FROM Adherent a
-         LEFT JOIN Emprunter e ON a.ID = e.AdherentID
-GROUP BY a.Nom;
-
--- 查询当前仍在等待状态的预约
-SELECT
-    c.CommandeID,
-    a.Nom AS NomAdherent,
-    l.Titre AS TitreLivre,
-    c.DateCommande,
-    c.DateDebut,
-    c.DureePrevue
-FROM Commander c
-         JOIN Adherent a ON c.AdherentID = a.ID
-         JOIN Livre l ON c.ISBN = l.ISBN
-WHERE c.Statut = 'en_attente';
-
--- 查询逾期归还的借阅记录
-SELECT
-    e.EmpruntID,
-    a.Nom,
-    l.Titre,
-    e.DateEmprunt,
-    e.DateRetourPrevue,
-    e.DateRetourReelle
-FROM Emprunter e
-         JOIN Adherent a ON e.AdherentID = a.ID
-         JOIN Livre l ON e.ISBN = l.ISBN
-WHERE e.EstEnRetard = TRUE;
-
--- 查询每本书被借阅的次数
-SELECT
-    l.Titre,
-    COUNT(e.EmpruntID) AS NbEmprunts
-FROM Livre l
-         LEFT JOIN Emprunter e ON l.ISBN = e.ISBN
-GROUP BY l.Titre
-ORDER BY NbEmprunts DESC;
-
--- 查询每个会员当前正在借阅的书籍（即未归还）
-SELECT
-    a.Nom AS NomAdherent,
-    COUNT(*) AS LivresNonRendus
-FROM Emprunter e
-         JOIN Adherent a ON e.AdherentID = a.ID
-WHERE e.DateRetourReelle IS NULL
-GROUP BY a.Nom;
-
--- 查询借阅记录的平均持续时间（仅统计已归还）
-SELECT
-    AVG(e.DateRetourReelle - e.DateEmprunt) AS DureeMoyenne
-FROM Emprunter e
-WHERE e.DateRetourReelle IS NOT NULL;
-
--- 查询每个类型的书籍数量
-SELECT
-    g.Nom AS Genre,
-    COUNT(l.ISBN) AS NbLivres
-FROM Genre g
-         LEFT JOIN Livre l ON g.GenreID = l.GenreID
-GROUP BY g.Nom
-ORDER BY NbLivres DESC;
-
--- 查询预约数量最多的书籍
-SELECT
-    l.Titre,
-    COUNT(c.CommandeID) AS NbCommandes
-FROM Livre l
-         JOIN Commander c ON l.ISBN = c.ISBN
-GROUP BY l.Titre
-ORDER BY NbCommandes DESC
-LIMIT 5;
-
--- 查询所有状态为“honoree”的预约详情
-SELECT
-    c.CommandeID,
-    a.Nom AS Adherent,
-    l.Titre,
-    c.DateDebut,
-    c.DureePrevue
-FROM Commander c
-         JOIN Adherent a ON c.AdherentID = a.ID
-         JOIN Livre l ON c.ISBN = l.ISBN
-WHERE c.Statut = 'honoree';
 
