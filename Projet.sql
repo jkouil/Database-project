@@ -8,61 +8,58 @@ DROP TABLE IF EXISTS Genre;
 
 -- Table: Genre
 CREATE TABLE Genre (
-  GenreID SERIAL PRIMARY KEY,
-  Nom VARCHAR(100) NOT NULL
+  GenreID INTEGER PRIMARY KEY AUTOINCREMENT,
+  Nom TEXT NOT NULL
 );
 
 -- Table: Livre
 CREATE TABLE Livre (
-  ISBN VARCHAR(20) PRIMARY KEY,
-  Titre VARCHAR(200) NOT NULL,
-  DatePublication DATE,
-  Editeur VARCHAR(100),
+  ISBN TEXT PRIMARY KEY,
+  Titre TEXT NOT NULL,
+  DatePublication TEXT,
+  Editeur TEXT,
   GenreID INTEGER REFERENCES Genre(GenreID)
 );
 
 -- Table: Auteur
 CREATE TABLE Auteur (
-  AuteurID SERIAL PRIMARY KEY,
-  Nom VARCHAR(100) NOT NULL,
-  Nationalite VARCHAR(50),
-  DateNaissance DATE,
+  AuteurID INTEGER PRIMARY KEY AUTOINCREMENT,
+  Nom TEXT NOT NULL,
+  Nationalite TEXT,
+  DateNaissance TEXT,
   Adresse TEXT
 );
 
 -- Table: Ecrire (many-to-many relationship between Auteur and Livre)
 CREATE TABLE Ecrire (
   AuteurID INTEGER REFERENCES Auteur(AuteurID),
-  ISBN VARCHAR(20) REFERENCES Livre(ISBN),
+  ISBN TEXT REFERENCES Livre(ISBN),
   PRIMARY KEY (AuteurID, ISBN)
 );
 
 -- Table: Adherent
 CREATE TABLE Adherent (
-  ID SERIAL PRIMARY KEY,
-  Nom VARCHAR(100) NOT NULL,
+  ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  Nom TEXT NOT NULL,
   Adresse TEXT,
-  Email VARCHAR(100),
-  Telephone VARCHAR(20),
+  Email TEXT,
+  Telephone TEXT,
   DateInscription DATE
 );
 
 -- Table: Emprunter
 CREATE TABLE Emprunter (
-  EmpruntID SERIAL PRIMARY KEY,
-  ISBN VARCHAR(20) REFERENCES Livre(ISBN),
-  AdherentID INTEGER REFERENCES Adherent(ID),
-  DateEmprunt DATE NOT NULL,
-  DateRetourPrevue DATE NOT NULL,
-  DateRetourReelle DATE,
-  EstEnRetard BOOLEAN,
-  CHECK (DateRetourReelle IS NULL OR DateRetourReelle > DateEmprunt),
-  CHECK (DateRetourPrevue <= DateEmprunt + INTERVAL '14 days')
+    EmpruntID INTEGER PRIMARY KEY AUTOINCREMENT,
+    ISBN TEXT NOT NULL REFERENCES Livre(ISBN),
+    AdherentID INTEGER NOT NULL REFERENCES Adherent(ID),
+    DateEmprunt DATE NOT NULL,
+    DateRetourReelle DATE,
+    CHECK (DateRetourReelle IS NULL OR DATE(DateRetourReelle) > DATE(DateEmprunt))
 );
 
 -- Table: Commander
 CREATE TABLE Commander (
-  CommandeID SERIAL PRIMARY KEY,
+  CommandeID INTEGER PRIMARY KEY AUTOINCREMENT,
   ISBN VARCHAR(20) REFERENCES Livre(ISBN),
   AdherentID INTEGER REFERENCES Adherent(ID),
   DateCommande DATE NOT NULL,
@@ -86,6 +83,7 @@ INSERT INTO Genre (GenreID, Nom) VALUES
                             (8,'Fantastique'),
                             (9,'economie'),
                             (10,'Psychologie');
+
 -- Insertion dans Auteur
 INSERT INTO Auteur (AuteurID, Nom, Nationalite, DateNaissance, Adresse) VALUES
     (1,'Isaac Asimov', 'Americain', '1920-01-02', 'Brooklyn, New York'),
@@ -202,17 +200,17 @@ INSERT INTO Adherent (Nom, Adresse, Email, Telephone, DateInscription) VALUES
     ('Isabelle Fortin', '444 boulevard Rene-Levesque', 'isabelle.fortin@gmail.com', '514-369-1470', '2023-07-19');
 
 -- Insertion dans Emprunter
-INSERT INTO Emprunter (ISBN, AdherentID, DateEmprunt, DateRetourPrevue, DateRetourReelle, EstEnRetard) VALUES
-    ('9780451524935', 1, '2025-04-01', '2025-04-15', '2025-04-16', TRUE),
-    ('9782070360024', 2, '2025-04-05', '2025-04-19', NULL, FALSE),
-    ('9780140449273', 1, '2025-03-15', '2025-03-29', '2025-04-01', TRUE),
-    ('9780061122415', 2, '2025-04-10', '2025-04-24', NULL, FALSE),
-    ('9780141182803', 1, '2025-04-12', '2025-04-26', NULL, FALSE),
-    ('9780679720201', 3, '2025-03-20', '2025-04-03', '2025-04-05', TRUE),
-    ('9782070314974', 4, '2025-04-02', '2025-04-16', NULL, FALSE),
-    ('9782070360534', 5, '2025-03-28', '2025-04-11', '2025-04-10', FALSE),
-    ('9782738112345', 6, '2025-04-01', '2025-04-15', NULL, FALSE),
-    ('9782070389025', 7, '2025-04-04', '2025-04-18', '2025-04-20', TRUE);
+INSERT INTO Emprunter (ISBN, AdherentID, DateEmprunt, DateRetourReelle) VALUES
+    ('9780451524935', 1, '2025-04-01', '2025-04-16'),
+    ('9782070360024', 2, '2025-04-05', NULL),
+    ('9780140449273', 1, '2025-03-15', '2025-04-01'),
+    ('9780061122415', 2, '2025-04-10', NULL),
+    ('9780141182803', 1, '2025-04-12', NULL),
+    ('9780679720201', 3, '2025-03-20', '2025-04-05'),
+    ('9782070314974', 4, '2025-04-02', NULL),
+    ('9782070360534', 5, '2025-03-28', '2025-04-10'),
+    ('9782738112345', 6, '2025-04-01', NULL),
+    ('9782070389025', 7, '2025-04-04', '2025-04-20');
 
 -- Insertion dans Commander
 INSERT INTO Commander (ISBN, AdherentID, DateCommande, Statut, DateDebut, DureePrevue) VALUES

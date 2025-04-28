@@ -13,14 +13,13 @@ def show_homepage(tree, action_frame):
     tree.heading("Message", text="Bienvenue")
     tree.insert("", tk.END, values=["Bienvenue dans le système de gestion de bibliothèque"])
 
-
     for widget in action_frame.winfo_children():
         widget.destroy()
 
     # 2 requests in question 5
     btns = {
         "Top 3 emprunteurs": """
-               SELECT a.Nom, COUNT(e.EmpruntID) AS NbEmprunts
+               SELECT a.ID, a.Nom, COUNT(e.EmpruntID) AS NbEmprunts
                FROM Adherent a
                JOIN Emprunter e ON a.ID = e.AdherentID
                GROUP BY a.Nom
@@ -28,7 +27,7 @@ def show_homepage(tree, action_frame):
                LIMIT 3
            """,
         "Commandes en attente": """
-               SELECT l.Titre, a.Nom, a.Email, a.Telephone, c.DateCommande
+               SELECT c.CommandeID, l.Titre, a.Nom, a.Email, a.Telephone, c.DateCommande
                FROM Commander c
                    JOIN Livre l ON c.ISBN = l.ISBN
                    JOIN Adherent a ON c.AdherentID = a.ID
@@ -47,7 +46,6 @@ def show_homepage(tree, action_frame):
 
     tk.Button(action_frame, text="Retards > N jours", command=lambda: prompt_for_retards(tree)).pack(side=tk.LEFT,
                                                                                                      padx=5)
-
 
 # Utilitaires
 
@@ -208,9 +206,9 @@ def add_emprunt(tree):
             conn.execute("PRAGMA foreign_keys = ON")
             cursor = conn.cursor()
             cursor.execute("""
-                INSERT INTO Emprunter (ISBN, AdherentID, DateEmprunt, DateRetourPrevue, EstEnRetard)
-                VALUES (?, ?, ?, DATE(?, '+14 days'), 0)
-            """, (isbn, adherent, date, date))
+                INSERT INTO Emprunter (ISBN, AdherentID, DateEmprunt)
+                VALUES (?, ?, ?)
+            """, (isbn, adherent, date))
             conn.commit()
             conn.close()
             win.destroy()
@@ -359,9 +357,9 @@ def modify_selected(tree, table):
         id_field = ("CommandeID", item[0])
         query = "UPDATE Commander SET ISBN=?, AdherentID=?, DateCommande=?, Statut=?, DateDebut=?, DureePrevue=? WHERE CommandeID=?"
     elif table == "Emprunter":
-        labels = ["ISBN", "AdherentID", "DateEmprunt", "DateRetourPrevue", "DateRetourReelle", "EstEnRetard"]
+        labels = ["ISBN", "AdherentID", "DateEmprunt", "DateRetourReelle"]
         id_field = ("EmpruntID", item[0])
-        query = "UPDATE Emprunter SET ISBN=?, AdherentID=?, DateEmprunt=?, DateRetourPrevue=?, DateRetourReelle=?, EstEnRetard=? WHERE EmpruntID=?"
+        query = "UPDATE Emprunter SET ISBN=?, AdherentID=?, DateEmprunt=?, DateRetourReelle=? WHERE EmpruntID=?"
 
     entries = []
     for i, label in enumerate(labels):
@@ -416,9 +414,11 @@ def prompt_for_emprunteurs(tree):
             messagebox.showerror("Erreur", "Veuillez entrer au moins un des deux critères.")
             return
 
+
+        #we could replace all the "?" by other values in params.
         query = """
             SELECT DISTINCT a.ID AS AdherentID, a.Nom, a.Email, a.Telephone,
-                            e.ISBN, e.DateEmprunt, e.DateRetourPrevue, e.DateRetourReelle
+                            e.ISBN, e.DateEmprunt, e.DateRetourReelle
             FROM Adherent a
             JOIN Emprunter e ON a.ID = e.AdherentID
             JOIN Livre l ON e.ISBN = l.ISBN
@@ -443,7 +443,7 @@ def prompt_for_emprunteurs(tree):
                 messagebox.showinfo("Résultat", "Aucun emprunteur trouvé pour les critères donnés.")
                 return
 
-            
+
             tree.delete(*tree.get_children())
             tree["columns"] = columns
             tree["show"] = "headings"
@@ -481,19 +481,18 @@ def prompt_for_retards(tree):
         query = f"""
             SELECT a.ID AS AdherentID, a.Nom, a.Email, a.Telephone,
                    l.ISBN, l.Titre,
-                   e.DateEmprunt, e.DateRetourPrevue, e.DateRetourReelle,
-                   julianday(e.DateRetourReelle) - julianday(e.DateRetourPrevue) AS JoursEnRetard
+                   e.DateEmprunt, e.DateRetourReelle
             FROM Emprunter e
             JOIN Adherent a ON e.AdherentID = a.ID
             JOIN Livre l ON e.ISBN = l.ISBN
             WHERE e.DateRetourReelle IS NOT NULL
-              AND julianday(e.DateRetourReelle) - julianday(e.DateRetourPrevue) > ?
+              AND DATE(e.DateRetourReelle) > DATE(e.DateEmprunt, '+{14 + int(entry.get())} days')
         """
 
         try:
             conn = sqlite3.connect(DB_PATH)
             cursor = conn.cursor()
-            cursor.execute(query, (n,))
+            cursor.execute(query)
             rows = cursor.fetchall()
             columns = [desc[0] for desc in cursor.description]
 
